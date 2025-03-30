@@ -3,6 +3,7 @@ name: Citibike Data Fetch
 on:
   # 每小時觸發一次 (UTC 時間)。注意：GitHub Actions 的排程使用 UTC，
   # 但我們的程式碼內部會根據紐約時區來記錄時間，所以結果符合需求
+  workflow_dispatch:
   schedule:
     - cron: "0 * * * *"
 
@@ -24,7 +25,7 @@ jobs:
           pip install requests pytz
 
       - name: Run data fetch script
-        run: python script.py
+        run: python src/script.py
 
       # 若要保存產生的檔案，可使用 artifact 上傳功能
       - name: Upload artifact

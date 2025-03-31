@@ -30,15 +30,17 @@ jobs:
 
       - name: Commit data files to data branch
         run: |
-          # 設定 Git 使用者資訊
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          
+      
           # 取得遠端分支資訊
           git fetch origin
       
-          # 在當前 HEAD 基礎上建立/切換到 data 分支（不依賴已存在的分支）
-          git checkout -b data
+          # 切到 data 分支（若不存在就建立）
+          git checkout data || git checkout -b data
+      
+          # 將遠端 data 分支的更新合併進來 (或使用 rebase)
+          git pull origin data --rebase
       
           # 將 data 資料夾加入版本控制
           git add data/
@@ -46,7 +48,8 @@ jobs:
           # 若有變更才 commit
           git diff --cached --exit-code || git commit -m "Update data files at $(date)"
       
-          # 將本地 data 分支推送到遠端，並設定上游
-          git push --set-upstream origin data
+          # 推送到遠端 data 分支
+          git push origin data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      

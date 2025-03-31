@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          ref: main  # 確保 checkout 到 main 分支
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -28,28 +30,23 @@ jobs:
       - name: List files for debugging
         run: ls -R
 
-      - name: Commit data files to data branch
+      - name: Commit data files to main branch
         run: |
+          # 設定 Git 使用者資訊
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-      
-          # 取得遠端分支資訊
-          git fetch origin
-      
-          # 切到 data 分支（若不存在就建立）
-          git checkout data || git checkout -b data
-      
-          # 將遠端 data 分支的更新合併進來 (或使用 rebase)
-          git pull origin data --rebase
-      
-          # 將 data 資料夾加入版本控制
+          
+          # 確保在 main 分支上並拉取最新更新
+          git checkout main
+          git pull origin main
+          
+          # 僅加入 data 資料夾的變更
           git add data/
-      
-          # 若有變更才 commit
+          
+          # 如果有變更才進行 commit
           git diff --cached --exit-code || git commit -m "Update data files at $(date)"
-      
-          # 推送到遠端 data 分支
-          git push origin data
+          
+          # 推送到 main 分支
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      

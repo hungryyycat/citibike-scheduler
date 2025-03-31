@@ -27,6 +27,9 @@ jobs:
       - name: Run data fetch script
         run: python src/script.py
 
+      - name: List files for debugging
+        run: ls -R
+
       # 若要保存產生的檔案，可使用 artifact 上傳功能
       - name: Upload artifact
         uses: actions/upload-artifact@v2

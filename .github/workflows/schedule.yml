@@ -36,17 +36,17 @@ jobs:
           
           # 取得遠端分支資訊
           git fetch origin
-          
-          # 切換到 data 分支，若不存在則建立新分支
-          git checkout data || git checkout -b data
-          
+      
+          # 在當前 HEAD 基礎上建立/切換到 data 分支（不依賴已存在的分支）
+          git checkout -b data
+      
           # 將 data 資料夾加入版本控制
           git add data/
-          
-          # 如果有變更則 commit
+      
+          # 若有變更才 commit
           git diff --cached --exit-code || git commit -m "Update data files at $(date)"
-          
-          # 推送變更到遠端 data 分支
-          git push origin data
+      
+          # 將本地 data 分支推送到遠端，並設定上游
+          git push --set-upstream origin data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-Citibike Data Fetch 
+name: Citibike Data Fetch
 
 on:
   workflow_dispatch:

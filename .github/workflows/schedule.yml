@@ -41,7 +41,7 @@ jobs:
           git pull origin main
           
           # 僅加入 data 資料夾的變更
-          git add data/
+          git add data2/
           
           # 如果有變更才進行 commit
           git diff --cached --exit-code || git commit -m "Update data files at $(date)"

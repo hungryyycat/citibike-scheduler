@@ -9,7 +9,7 @@ ny_tz = pytz.timezone("America/New_York")
 ny_time = datetime.datetime.now(ny_tz)
 
 # 指定存放檔案的資料夾（注意：在 GitHub Actions 執行時，檔案系統是暫存的）
-save_folder = "data"
+save_folder = "data2"
 
 # 檢查資料夾是否存在，若不存在則建立它
 if not os.path.exists(save_folder):
